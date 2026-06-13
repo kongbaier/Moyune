@@ -1,0 +1,32 @@
+{
+  "name": "veader",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint src",
+    "format": "oxfmt src ",
+    "check": "oxlint src && oxfmt src"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.18.0",
+    "@tailwindcss/vite": "^4.3.1",
+    "ky": "^2.0.2",
+    "tailwindcss": "^4.3.1",
+    "vue": "^3.5.34",
+    "vue-router": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.3",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@vue/tsconfig": "^0.9.1",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.12",
+    "vue-tsc": "^3.2.8"
+  }
+}

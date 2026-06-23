@@ -1,0 +1,51 @@
+/* ── 墨迹入场动画 — 由模糊渐清，如墨在纸上散开后凝定 ── */
+@keyframes ink-reveal {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@utility animate-ink-reveal {
+  animation: ink-reveal 0.6s ease-out both;
+}
+
+/* ── 笔触绘制 — 用于进度条 ── */
+@keyframes brush-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ── 墨色扩散 — 页面/章节切换 ── */
+@keyframes ink-spread {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+  }
+  100% {
+    clip-path: circle(150% at 50% 50%);
+  }
+}
+
+/* ── 跨章翻页 leave 动画 ── */
+.slide-out-forward-leave-active,
+.slide-out-backward-leave-active {
+  transition: transform 0.3s ease-out;
+}
+
+.slide-out-forward-leave-to {
+  transform: translateX(-100%);
+}
+
+.slide-out-backward-leave-to {
+  transform: translateX(100%);
+}

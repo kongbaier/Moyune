@@ -15,14 +15,18 @@ defineProps<{
   <li>
     <RouterLink :to="item.to" v-slot="{ isActive }">
       <div
-        class="flex items-center px-3 py-2 rounded-md transition-colors"
+        class="group relative flex items-center px-3 py-2.5 transition-colors duration-300"
         :class="
           isActive
-            ? 'bg-surface-active text-accent-text font-medium'
-            : 'text-text-secondary hover:bg-surface-hover hover:text-text-primary'
+            ? 'text-accent-text'
+            : 'text-text-muted hover:text-text-primary'
         "
       >
-        <component :is="item.icon" class="size-4 mr-3" />
+        <div
+          v-if="isActive"
+          class="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-accent"
+        />
+        <component :is="item.icon" class="size-3.5 shrink-0 mr-3" />
         <span>{{ item.label }}</span>
       </div>
     </RouterLink>

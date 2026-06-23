@@ -1,0 +1,182 @@
+@property --surface {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(97% 0.006 80);
+}
+
+@property --surface-elevated {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(99% 0.004 80);
+}
+
+@property --surface-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(94% 0.006 80);
+}
+
+@property --surface-active {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(90% 0.01 260);
+}
+
+@property --text-primary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(18% 0.008 270);
+}
+
+@property --text-secondary {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(38% 0.006 270);
+}
+
+@property --text-muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(55% 0.005 270);
+}
+
+@property --border {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(88% 0.008 80);
+}
+
+@property --border-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(78% 0.008 80);
+}
+
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(55% 0.18 24);
+}
+
+@property --accent-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(48% 0.18 24);
+}
+
+@property --accent-muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(95% 0.02 24);
+}
+
+@property --accent-text {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: oklch(55% 0.18 24);
+}
+
+:root {
+  /* 字体 */
+  --font-display: "ZCOOL XiaoWei", "Noto Serif SC", serif;
+  --font-serif:
+    "Noto Serif SC", "Source Han Serif SC", "SimSun", "Songti SC", serif;
+  --font-sans:
+    "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+
+  /* 宣纸/稻香纸 — 暖象牙白 */
+  --surface: oklch(97% 0.006 80);
+  --surface-elevated: oklch(99% 0.004 80);
+  --surface-hover: oklch(94% 0.006 80);
+  --surface-active: oklch(90% 0.01 260);
+
+  /* 墨色 — 冷调近乎黑，似松烟墨 */
+  --text-primary: oklch(18% 0.008 270);
+  --text-secondary: oklch(38% 0.006 270);
+  --text-muted: oklch(55% 0.005 270);
+
+  /* 纸纹边缘 */
+  --border: oklch(88% 0.008 80);
+  --border-strong: oklch(78% 0.008 80);
+
+  /* 朱砂 — 印章红 */
+  --accent: oklch(55% 0.18 24);
+  --accent-hover: oklch(48% 0.18 24);
+  --accent-muted: oklch(95% 0.02 24);
+  --accent-text: oklch(55% 0.18 24);
+
+  --content-max-w: 72rem;
+  --theme-transition-duration: 0.5s;
+
+  transition:
+    --surface var(--theme-transition-duration) ease,
+    --surface-elevated var(--theme-transition-duration) ease,
+    --surface-hover var(--theme-transition-duration) ease,
+    --surface-active var(--theme-transition-duration) ease,
+    --text-primary var(--theme-transition-duration) ease,
+    --text-secondary var(--theme-transition-duration) ease,
+    --text-muted var(--theme-transition-duration) ease,
+    --border var(--theme-transition-duration) ease,
+    --border-strong var(--theme-transition-duration) ease,
+    --accent var(--theme-transition-duration) ease,
+    --accent-hover var(--theme-transition-duration) ease,
+    --accent-muted var(--theme-transition-duration) ease,
+    --accent-text var(--theme-transition-duration) ease;
+}
+
+.dark {
+  --surface: oklch(15% 0.005 80);
+  --surface-elevated: oklch(19% 0.005 80);
+  --surface-hover: oklch(23% 0.006 80);
+  --surface-active: oklch(26% 0.014 260);
+
+  --text-primary: oklch(88% 0.004 80);
+  --text-secondary: oklch(70% 0.004 80);
+  --text-muted: oklch(50% 0.005 80);
+
+  --border: oklch(26% 0.006 80);
+  --border-strong: oklch(36% 0.006 80);
+
+  --accent: oklch(63% 0.16 24);
+  --accent-hover: oklch(56% 0.16 24);
+  --accent-muted: oklch(18% 0.035 24);
+  --accent-text: oklch(66% 0.16 24);
+}
+
+@theme {
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-text: var(--accent-text);
+}
+
+/* ── 宣纸纹理 ── */
+@utility paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── 墨晕阴影 — 模拟墨在宣纸上微微洇开的毛边 ── */
+@utility shadow-ink {
+  box-shadow:
+    0 1px 3px oklch(0% 0 0 / 0.03),
+    0 3px 8px oklch(0% 0 0 / 0.04),
+    0 6px 16px -2px oklch(0% 0 0 / 0.05);
+}
+
+@utility shadow-ink-lg {
+  box-shadow:
+    0 2px 6px oklch(0% 0 0 / 0.04),
+    0 6px 16px oklch(0% 0 0 / 0.05),
+    0 12px 32px -4px oklch(0% 0 0 / 0.07);
+}

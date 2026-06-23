@@ -8,7 +8,6 @@ const items: { to: string; label: string; icon: Component }[] = [
   { to: "/settings", label: "设置", icon: markRaw(Settings) },
 ];
 
-/** 当前是否为深色模式 */
 const isDark = ref(document.documentElement.classList.contains("dark"));
 
 function toggleTheme() {
@@ -20,29 +19,41 @@ function toggleTheme() {
 
 <template>
   <aside
-    class="w-60 px-2 py-6 flex flex-col justify-between border-r border-border bg-surface-elevated theme-transition"
+    class="w-52 px-5 py-8 flex flex-col border-r border-border bg-surface-elevated paper-texture"
   >
-    <header>
-      <h1 class="text-4xl font-serif text-text-primary">阅读</h1>
-      <p class="text-xs text-text-muted mt-1">一个第三方的开源阅读 Web 应用</p>
+    <header class="mb-12">
+      <h1
+        class="text-4xl leading-tight tracking-widest text-text-primary"
+        style="writing-mode: vertical-rl; font-family: var(--font-display)"
+      >
+        墨韵
+      </h1>
+      <p
+        class="mt-3 text-[11px] leading-relaxed text-text-muted"
+        style="writing-mode: vertical-rl"
+      >
+        开源阅读 · 静读时光
+      </p>
     </header>
 
-    <nav class="flex-1 mt-4">
-      <ul class="space-y-1 text-sm">
+    <nav class="flex-1">
+      <ul class="space-y-0.5 text-sm">
         <SidebarItem v-for="item in items" :key="item.to" :item="item" />
       </ul>
     </nav>
 
-    <footer class="space-y-3">
+    <footer class="space-y-4">
       <button
-        class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-text-secondary hover:bg-surface-hover cursor-pointer w-full"
+        class="group flex items-center gap-2.5 px-3 py-2 text-sm text-text-muted hover:text-text-primary cursor-pointer w-full transition-colors duration-300"
         @click="toggleTheme"
         :title="isDark ? '切换到浅色模式' : '切换到深色模式'"
       >
-        <component :is="isDark ? Sun : Moon" class="size-4" />
-        <span>{{ isDark ? "浅色模式" : "深色模式" }}</span>
+        <component :is="isDark ? Sun : Moon" class="size-3.5 shrink-0" />
+        <span>{{ isDark ? "浅色" : "深色" }}</span>
       </button>
-      <p class="text-xs text-text-muted">一个开源项目，欢迎贡献代码</p>
+      <p class="text-[11px] leading-relaxed text-text-muted/50">
+        读书不觉已春深<br />一寸光阴一寸金
+      </p>
     </footer>
   </aside>
 </template>

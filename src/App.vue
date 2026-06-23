@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import { RouterView } from "vue-router";
+import { computed } from "vue";
+import { useRoute, RouterView } from "vue-router";
 import { AppSidebar } from "./components/sidebar";
+
+const route = useRoute();
+const isReader = computed(() => String(route.path).startsWith("/reader/"));
 </script>
 
 <template>
+  <template v-if="isReader">
+    <RouterView />
+  </template>
+
   <div
-    class="flex h-screen min-w-screen bg-surface text-text-primary theme-transition"
+    v-else
+    class="flex h-screen min-w-screen bg-surface text-text-primary"
   >
     <AppSidebar />
-    <main class="flex-1 overflow-y-auto scrollbar-thin scrollbar-gutter-both">
-      <RouterView />
+    <main class="flex-1 overflow-y-auto scrollbar-ink">
+      <RouterView v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </RouterView>
     </main>
   </div>
 </template>

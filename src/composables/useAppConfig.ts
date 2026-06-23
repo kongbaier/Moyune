@@ -36,10 +36,10 @@ const savedBaseUrl = localStorage.getItem(STORAGE_KEY_BASE_URL);
 const savedPort = localStorage.getItem(STORAGE_KEY_PORT);
 
 const baseUrl = ref<string>(
-  isProduction() ? (savedBaseUrl ?? getDefaultBaseUrl()) : getDefaultBaseUrl(),
+  isProduction() ? (savedBaseUrl ?? getDefaultBaseUrl()) : getDefaultBaseUrl()
 );
 const port = ref<string>(
-  isProduction() ? (savedPort ?? getDefaultPort()) : getDefaultPort(),
+  isProduction() ? (savedPort ?? getDefaultPort()) : getDefaultPort()
 );
 
 const fullUrl = computed(() => buildFullUrl(baseUrl.value, port.value));

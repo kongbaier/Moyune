@@ -16,6 +16,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.zed
 .DS_Store
 *.suo
 *.ntvs*
@@ -26,9 +27,9 @@ dist-ssr
 #agents
 .claude
 CLAUDE.md
+AGENTS.md
 
 #env
 .env
 .env.development
 .env.production
-

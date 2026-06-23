@@ -1,13 +1,27 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import { BookOpen, Clock, Layers } from "@lucide/vue";
 import type { Book } from "../../api/books";
+
+const router = useRouter();
+
+function goToReader() {
+  router.push({
+    path: `/reader/${encodeURIComponent(props.book.bookUrl)}`,
+    query: {
+      name: props.book.name,
+      author: props.book.author,
+      durChapterIndex: props.book.durChapterIndex,
+      durChapterPos: props.book.durChapterPos,
+    },
+  });
+}
 
 const props = defineProps<{
   book: Book;
 }>();
 
-/** 阅读进度百分比 */
 const progressPercent = computed(() => {
   if (!props.book.totalChapterNum) return 0;
   return Math.round(
@@ -15,11 +29,9 @@ const progressPercent = computed(() => {
   );
 });
 
-/** 格式化字数 */
 const formattedWordCount = computed(() => {
   const wc = props.book.wordCount;
   if (!wc) return null;
-  // wc 可能是字符串 "xx万字" 或纯数字
   if (typeof wc === "string" && wc.includes("万")) return wc;
   const n = Number(wc);
   if (Number.isNaN(n)) return wc;
@@ -27,19 +39,25 @@ const formattedWordCount = computed(() => {
   return `${n} 字`;
 });
 
-/** 封面加载失败时显示占位 */
+const formattedIntro = computed(() => {
+  if (!props.book.intro) return "";
+  return props.book.intro
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\\n/g, "<br>")
+    .replace(/\n/g, "<br>");
+});
+
 const coverError = ref(false);
 </script>
 
 <template>
   <article
-    class="book-card group relative flex cursor-pointer gap-5 rounded-2xl border border-border/60 bg-surface-elevated p-5 theme-transition hover:-translate-y-0.5 hover:shadow-card-hover"
+    class="h-60 group relative flex cursor-pointer gap-5 rounded-2xl border border-border/50 bg-surface-elevated p-5 paper-texture shadow-ink transition-shadow duration-500 hover:-translate-y-0.5 hover:shadow-ink-lg"
+    @click="goToReader"
   >
-    <!-- ── 左侧：封面 ── -->
-    <div
-      class="relative shrink-0 overflow-hidden rounded-lg"
-      style="width: 100px; height: 136px"
-    >
+    <div class="relative shrink-0 overflow-hidden rounded-lg aspect-3/4">
       <img
         v-if="book.coverUrl && !coverError"
         :src="book.coverUrl"
@@ -48,7 +66,6 @@ const coverError = ref(false);
         loading="lazy"
         @error="coverError = true"
       />
-      <!-- 占位封面 -->
       <div
         v-else
         class="flex h-full w-full flex-col items-center justify-center gap-1.5"
@@ -60,9 +77,9 @@ const coverError = ref(false);
           );
         "
       >
-        <BookOpen class="size-5 text-accent-text/25" />
+        <BookOpen class="size-5 text-accent-text/20" />
         <span
-          class="select-none text-[10px] font-bold tracking-wide text-accent-text/18"
+          class="select-none text-[10px] font-bold tracking-wide text-accent-text/15"
           style="font-family: var(--font-serif)"
         >
           {{ book.kind || "书籍" }}
@@ -70,91 +87,96 @@ const coverError = ref(false);
       </div>
     </div>
 
-    <!-- ── 右侧：信息 ── -->
-    <div class="flex min-w-0 flex-1 flex-col justify-between py-0.5">
-      <!-- 顶部：标题 & 作者 -->
+    <div class="flex min-w-0 flex-1 flex-col py-0.5">
       <div>
         <h3
           class="truncate text-[15px] font-bold leading-snug tracking-tight text-text-primary transition-colors group-hover:text-accent-text"
-          style="font-family: var(--font-serif)"
           :title="book.name"
         >
           {{ book.name }}
         </h3>
         <p
-          class="mt-1 truncate text-[13px] text-text-muted/80"
+          class="truncate text-[13px] leading-snug text-text-muted/70"
           :title="book.author"
         >
           {{ book.author || "佚名" }}
         </p>
-
-        <!-- 简介 -->
-        <p
-          v-if="book.intro"
-          class="mt-2.5 line-clamp-2 text-[13px] leading-relaxed text-text-secondary/70"
-          :title="book.intro"
-        >
-          {{ book.intro }}
-        </p>
       </div>
 
-      <!-- 底部：元信息 & 进度 -->
-      <div class="mt-3 space-y-2.5">
-        <!-- 标签行 -->
-        <div class="flex flex-wrap items-center gap-2">
-          <!-- 来源 -->
-          <span
-            v-if="book.originName"
-            class="inline-flex items-center gap-1 rounded-md border border-border/70 px-2 py-0.5 text-[11px] text-text-muted/70"
+      <div class="tag-scroll mt-1.5 flex items-center gap-1.5 overflow-x-auto">
+        <span
+          v-if="book.originName"
+          class="inline-flex shrink-0 items-center gap-1 rounded-md border border-border/50 px-2 py-0.5 text-[11px] text-text-muted/60"
+        >
+          <Layers class="size-3" />
+          {{ book.originName }}
+        </span>
+        <span
+          v-if="formattedWordCount"
+          class="inline-flex shrink-0 items-center gap-1 rounded-md border border-border/50 px-2 py-0.5 text-[11px] text-text-muted/60"
+        >
+          {{ formattedWordCount }}
+        </span>
+        <span
+          v-if="book.latestChapterTitle"
+          class="inline-flex shrink-0 items-center gap-1 rounded-md border border-border/50 px-2 py-0.5 text-[11px] text-text-muted/60"
+          :title="book.latestChapterTitle"
+        >
+          <Clock class="size-3 shrink-0" />
+          <span class="max-w-[8em] truncate"
+            >至 {{ book.latestChapterTitle }}</span
           >
-            <Layers class="size-3" />
-            {{ book.originName }}
-          </span>
-          <!-- 字数 -->
-          <span
-            v-if="formattedWordCount"
-            class="inline-flex items-center gap-1 rounded-md border border-border/70 px-2 py-0.5 text-[11px] text-text-muted/70"
-          >
-            {{ formattedWordCount }}
-          </span>
-          <!-- 最新章 -->
-          <span
-            v-if="book.latestChapterTitle"
-            class="inline-flex items-center gap-1 truncate rounded-md border border-border/70 px-2 py-0.5 text-[11px] text-text-muted/70"
-            :title="book.latestChapterTitle"
-          >
-            <Clock class="size-3 shrink-0" />
-            <span class="truncate">至 {{ book.latestChapterTitle }}</span>
-          </span>
-        </div>
+        </span>
+      </div>
 
-        <!-- 阅读进度条 -->
-        <div v-if="book.totalChapterNum > 0" class="flex items-center gap-2.5">
-          <div class="h-1 flex-1 overflow-hidden rounded-full bg-surface-hover">
+      <p
+        v-if="book.intro"
+        v-html="formattedIntro"
+        class="intro-clamp mt-1.5 flex-1 text-xs leading-relaxed text-text-secondary/60"
+        :title="book.intro"
+      />
+
+      <div class="mt-1.5 flex items-center gap-2">
+        <template v-if="book.totalChapterNum > 0">
+          <div
+            class="h-1 w-10 shrink-0 overflow-hidden rounded-full bg-surface-hover"
+          >
             <div
-              class="h-full rounded-full bg-accent/50 transition-all duration-500 group-hover:bg-accent"
-              :style="{ width: `${Math.min(progressPercent, 100)}%` }"
+              class="h-full rounded-full bg-accent/60 origin-left transition-all duration-700 group-hover:bg-accent"
+              :style="{
+                transform: `scaleX(${Math.min(progressPercent, 100) / 100})`,
+              }"
             />
           </div>
-          <span class="shrink-0 text-[11px] tabular-nums text-text-muted/60">
+          <span class="shrink-0 text-[11px] tabular-nums text-text-muted/50">
             {{ book.durChapterIndex + 1 }}/{{ book.totalChapterNum }}
           </span>
-        </div>
-
-        <!-- 当前阅读章节 -->
+        </template>
         <p
           v-if="book.durChapterTitle"
-          class="truncate text-[11px] text-text-muted/50"
+          class="min-w-0 flex-1 truncate text-[11px] text-text-muted/40"
           :title="book.durChapterTitle"
         >
-          当前：{{ book.durChapterTitle }}
+          {{ book.durChapterTitle }}
         </p>
       </div>
     </div>
-
-    <!-- ── Hover 高亮条 ── -->
-    <div
-      class="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 rounded-b-2xl rounded-t-sm bg-accent/0 transition-all duration-400 group-hover:bg-accent/60"
-    />
   </article>
 </template>
+
+<style scoped>
+.intro-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+.tag-scroll {
+  scrollbar-width: none;
+}
+.tag-scroll::-webkit-scrollbar {
+  display: none;
+}
+</style>

@@ -1,7 +1,7 @@
 import { reactive, computed, watch } from "vue";
 
-const STORAGE_TEXT = "veader:textConfig";
-const STORAGE_LAYOUT = "veader:layoutConfig";
+const STORAGE_TEXT = "moyune:textConfig";
+const STORAGE_LAYOUT = "moyune:layoutConfig";
 
 function loadConfig<T>(key: string, fallback: T): T {
   try {

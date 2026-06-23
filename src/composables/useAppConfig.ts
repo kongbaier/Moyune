@@ -1,7 +1,7 @@
 import { computed, ref, watch } from "vue";
 
-const STORAGE_KEY_BASE_URL = "veader:baseUrl";
-const STORAGE_KEY_PORT = "veader:port";
+const STORAGE_KEY_BASE_URL = "moyune:baseUrl";
+const STORAGE_KEY_PORT = "moyune:port";
 
 /**
  * 构建完整 API 基础地址（baseUrl + port）

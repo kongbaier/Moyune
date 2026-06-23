@@ -69,7 +69,7 @@ interface BookshelfCache {
 /** 缓存有效期：5 分钟 */
 const TTL = 5 * 60 * 1000;
 
-const SESSION_KEY = "veader:bookshelf";
+const SESSION_KEY = "moyune:bookshelf";
 
 /** 模块级内存缓存（同一 JS 执行周期内复用） */
 let memoryCache: BookshelfCache | null = null;

@@ -115,7 +115,7 @@ pnpm check      # lint + format
 
 ## 致谢
 
-- [Legado](https://github.com/gedoor/legado_web_bookshelf) — 本项目的主要参考
+- [Legado_web_bookshelf](https://github.com/gedoor/legado_web_bookshelf) — 本项目的主要参考
 - [Lucide](https://lucide.dev/) — 精美开源图标库
 - [Tailwind CSS](https://tailwindcss.com/) — 实用优先的 CSS 框架
 
